@@ -84,7 +84,7 @@ const radarBackgroundPlugin = {
     
     ctx.save();
     
-    // Draw Spokes
+    // Draw Spokes (Color darkened as requested)
     ctx.beginPath();
     for (let i = 0; i < N; i++) {
       const a = start + (i * 2 * Math.PI / N);
@@ -93,7 +93,7 @@ const radarBackgroundPlugin = {
       ctx.moveTo(cx, cy);
       ctx.lineTo(x, y);
     }
-    // Changed spoke color to a darker teal
+    // Updated spoke color to a darker teal
     ctx.strokeStyle = '#35727d';
     ctx.lineWidth = 1;
     ctx.stroke();
@@ -134,7 +134,7 @@ const outlinedLabelsPlugin = {
     ctx.textBaseline = 'middle';
     ctx.font = 'italic 18px Candara';
     
-    // Outline color is the selected ability color, fill is white
+    // Outline color is the selected ability color, fill is white (Corrected)
     ctx.strokeStyle = chartColor; 
     ctx.fillStyle = 'white'; 
     ctx.lineWidth = 4;
