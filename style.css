@@ -89,7 +89,6 @@ button {
   position: relative;
   width: 450px;
   height: 450px;
-  background: none;
 }
 
 /* Overlay */
@@ -116,10 +115,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(300px * 0.4);
+  gap: 120px;
   overflow: hidden;
   padding: 20px;
-  border: none;
 }
 
 .close-btn {
@@ -156,7 +154,6 @@ button {
   padding: 10px;
   font-family: Candara;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   border-radius: 5px;
 }
 
