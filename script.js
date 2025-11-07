@@ -12,7 +12,7 @@ const recoveryInput = document.getElementById('recoveryInput');
 const defenseInput = document.getElementById('defenseInput');
 const colorPicker = document.getElementById('colorPicker');
 
-function makeRadar(ctx, maxCap = null, showPoints = true, drawPentagon = false) {
+function makeRadar(ctx, maxCap = null, showPoints = true, withBackground = false) {
   return new Chart(ctx, {
     type: 'radar',
     data: {
@@ -47,13 +47,21 @@ function makeRadar(ctx, maxCap = null, showPoints = true, drawPentagon = false) 
       maintainAspectRatio: false
     },
     plugins: [{
-      id: 'pentagonBackground',
+      id: 'customPentagonBackground',
       beforeDraw(chart) {
-        if (!drawPentagon) return;
+        if (!withBackground) return;
         const { ctx, chartArea } = chart;
         const centerX = (chartArea.left + chartArea.right) / 2;
         const centerY = (chartArea.top + chartArea.bottom) / 2;
         const radius = Math.min(chartArea.width, chartArea.height) / 2 * 0.9;
+
+        // Background gradient
+        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+        gradient.addColorStop(0, '#f8fcff');
+        gradient.addColorStop(0.25, '#92dfec');
+        gradient.addColorStop(1, '#92dfec');
+
+        // Draw filled pentagon with gradient
         ctx.save();
         ctx.beginPath();
         for (let i = 0; i < 5; i++) {
@@ -63,8 +71,23 @@ function makeRadar(ctx, maxCap = null, showPoints = true, drawPentagon = false) 
           i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
         }
         ctx.closePath();
+        ctx.fillStyle = gradient;
+        ctx.fill();
         ctx.strokeStyle = '#184046';
         ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Draw spokes from center to each vertex
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+          const angle = (Math.PI / 2) + (i * 2 * Math.PI / 5);
+          const x = centerX + radius * Math.cos(angle);
+          const y = centerY - radius * Math.sin(angle);
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = '#6db5c0';
+        ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
       }
@@ -72,7 +95,7 @@ function makeRadar(ctx, maxCap = null, showPoints = true, drawPentagon = false) 
   });
 }
 
-// Initialize main chart (transparent)
+// Chart 1 – transparent background
 window.addEventListener('load', () => {
   const ctx1 = document.getElementById('radarChart1').getContext('2d');
   radar1 = makeRadar(ctx1, null, true, false);
@@ -85,6 +108,7 @@ function hexToRGBA(hex, alpha) {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
+// Update button
 document.getElementById('updateBtn').addEventListener('click', () => {
   const vals = [
     parseFloat(powerInput.value) || 0,
@@ -116,6 +140,7 @@ document.getElementById('updateBtn').addEventListener('click', () => {
   document.getElementById('dispLevel').textContent = levelInput.value || '-';
 });
 
+// Overlay
 const overlay = document.getElementById('overlay');
 const viewBtn = document.getElementById('viewBtn');
 const closeBtn = document.getElementById('closeBtn');
@@ -164,6 +189,7 @@ downloadBtn.addEventListener('click', () => {
   });
 });
 
+// Image upload
 document.getElementById('imgInput').addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
