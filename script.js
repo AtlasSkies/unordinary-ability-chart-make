@@ -3,7 +3,8 @@ let radar2Ready = false;
 let chartColor = '#92dfec';
 
 // Pre-defined center coordinates for the main chart based on its container size (450x450 max)
-const CHART1_CENTER = { x: 225, y: 225 }; 
+// SHIFTED 3 PIXELS LEFT (225 -> 222)
+const CHART1_CENTER = { x: 222, y: 225 }; 
 const CHART_SCALE_FACTOR = 0.8;
 // Multiplier for the Character Chart (Chart 2) container size (Reduced by ~33%)
 const CHART_SIZE_MULTIPLIER = 1.0; 
@@ -146,12 +147,12 @@ const outlinedLabelsPlugin = {
       
       // Fine-tune positioning for Speed and Defense labels
       if (label === 'Defense') {
-        // Shift Defense (index 4) left (decrease radius slightly and move left)
-        const defenseOffset = 0.08; // Increased from 0.05 to 0.08 for further left shift
+        // Shift Defense (index 4) left (increase from 0.05 to 0.08 for further left shift)
+        const defenseOffset = 0.08; 
         angle -= defenseOffset;
       } else if (label === 'Speed') {
-        // Shift Speed (index 1) right (increase radius slightly and move right)
-        const speedOffset = 0.05; // Adjust angle slightly clockwise
+        // Shift Speed (index 1) right 
+        const speedOffset = 0.05; 
         angle += speedOffset;
       }
       
