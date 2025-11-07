@@ -52,16 +52,16 @@ function makeRadar(ctx, maxCap = null, showPoints = true, withBackground = false
         if (!withBackground) return;
         const { ctx, chartArea } = chart;
         const centerX = (chartArea.left + chartArea.right) / 2;
-        const centerY = (chartArea.top + chartArea.bottom) / 2;
+        const centerY = (chartArea.top + chartArea.bottom) / 2 + 10; // shifted slightly down
         const radius = Math.min(chartArea.width, chartArea.height) / 2 * 0.9;
 
-        // Background gradient
+        // Gradient background
         const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
         gradient.addColorStop(0, '#f8fcff');
         gradient.addColorStop(0.25, '#92dfec');
         gradient.addColorStop(1, '#92dfec');
 
-        // Draw filled pentagon with gradient
+        // Draw pentagon background
         ctx.save();
         ctx.beginPath();
         for (let i = 0; i < 5; i++) {
@@ -77,7 +77,7 @@ function makeRadar(ctx, maxCap = null, showPoints = true, withBackground = false
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Draw spokes from center to each vertex
+        // Draw spokes
         ctx.beginPath();
         for (let i = 0; i < 5; i++) {
           const angle = (Math.PI / 2) + (i * 2 * Math.PI / 5);
@@ -95,7 +95,7 @@ function makeRadar(ctx, maxCap = null, showPoints = true, withBackground = false
   });
 }
 
-// Chart 1 – transparent background
+// Chart 1: Transparent
 window.addEventListener('load', () => {
   const ctx1 = document.getElementById('radarChart1').getContext('2d');
   radar1 = makeRadar(ctx1, null, true, false);
@@ -108,7 +108,7 @@ function hexToRGBA(hex, alpha) {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
-// Update button
+// Update
 document.getElementById('updateBtn').addEventListener('click', () => {
   const vals = [
     parseFloat(powerInput.value) || 0,
@@ -151,51 +151,4 @@ viewBtn.addEventListener('click', () => {
 
   document.getElementById('overlayImg').src = document.getElementById('uploadedImg').src;
   document.getElementById('overlayName').textContent = nameInput.value || '-';
-  document.getElementById('overlayAbility').textContent = abilityInput.value || '-';
-  document.getElementById('overlayLevel').textContent = levelInput.value || '-';
-
-  setTimeout(() => {
-    const ctx2 = document.getElementById('radarChart2').getContext('2d');
-    if (!radar2Ready) {
-      radar2 = makeRadar(ctx2, 10, false, true);
-      radar2Ready = true;
-    } else radar2.resize();
-
-    const vals = [
-      parseFloat(powerInput.value) || 0,
-      parseFloat(speedInput.value) || 0,
-      parseFloat(trickInput.value) || 0,
-      parseFloat(recoveryInput.value) || 0,
-      parseFloat(defenseInput.value) || 0
-    ].map(v => Math.min(v, 10));
-
-    const fillColor = hexToRGBA(chartColor, 0.75);
-    radar2.data.datasets[0].data = vals;
-    radar2.data.datasets[0].borderColor = chartColor;
-    radar2.data.datasets[0].backgroundColor = fillColor;
-    radar2.options.scales.r.pointLabels.color = chartColor;
-    radar2.update();
-  }, 150);
-});
-
-closeBtn.addEventListener('click', () => overlay.classList.add('hidden'));
-
-downloadBtn.addEventListener('click', () => {
-  html2canvas(document.getElementById('characterBox')).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'character_chart.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  });
-});
-
-// Image upload
-document.getElementById('imgInput').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    document.getElementById('uploadedImg').src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-});
+  document.get
