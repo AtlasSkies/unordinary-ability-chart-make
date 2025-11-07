@@ -108,7 +108,7 @@ button {
 
 .character-box {
   background: #fff;
-  width: 64vw;         /* compact as requested */
+  width: 64vw;
   height: 80vh;
   border-radius: 15px;
   position: relative;
@@ -116,7 +116,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(300px * 0.4);  /* 2/5 image width */
+  gap: calc(300px * 0.4);
   overflow: hidden;
   padding: 20px;
   border: none;
@@ -163,8 +163,8 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 420px;   /* bigger canvas to prevent clipping */
-  height: 420px;  /* bigger canvas to prevent clipping */
+  width: 500px;   /* enlarged canvas */
+  height: 500px;  /* extra padding for labels */
   position: relative;
 }
 
