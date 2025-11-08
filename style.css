@@ -45,6 +45,18 @@ h1 {
   object-fit: cover;
 }
 
+/* FIX: New container for Name/Ability/Level inputs */
+.info-inputs-box {
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: clamp(180px, 25vw, 250px); /* Matches image width */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .inputs {
   display: flex;
   flex-direction: column;
@@ -58,6 +70,13 @@ label {
   width: clamp(200px, 80%, 260px);
   font-style: normal;
 }
+
+/* FIX: Stat labels are italic */
+.inputs label i {
+    font-style: italic;
+    font-weight: normal;
+}
+
 
 input[type="number"], input[type="text"] {
   width: 110px;
@@ -152,15 +171,33 @@ button:hover {
   border: 3px solid #184046;
   padding: 10px;
   text-align: center;
-  margin-top: 10px;
   width: 60%;
+  margin-left: auto;
+  margin-right: auto;
   font-family: Candara;
-  font-size: 16px;
+  /* FIX: Larger text */
+  font-size: 18px; 
+  
+  /* FIX: Overlap image by 10% of image height (280px * 0.1 = 28px) */
+  position: absolute;
+  bottom: -28px; 
+}
+
+.text-box p {
+    margin: 3px 0;
 }
 
 .text-box b {
   font-weight: bold;
   font-style: normal;
+}
+
+/* FIX: Watermark opacity */
+.text-watermark {
+    font-size: 10px;
+    font-family: sans-serif;
+    color: rgba(0, 0, 0, 0.1); /* 10% opacity */
+    margin-top: 5px;
 }
 
 .overlay-chart {
