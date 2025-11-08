@@ -56,7 +56,7 @@ label {
   display: flex;
   justify-content: space-between;
   width: clamp(200px, 80%, 260px);
-  font-style: italic;
+  font-style: normal;
 }
 
 input[type="number"], input[type="text"] {
@@ -80,8 +80,9 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
   transition: all 0.2s;
+  font-family: Candara;
+  font-weight: normal;
 }
 
 button:hover {
@@ -92,7 +93,6 @@ button:hover {
 .chart-area {
   width: clamp(280px, 40vw, 500px);
   height: clamp(280px, 40vw, 500px);
-  background: none;
 }
 
 .overlay {
@@ -151,9 +151,9 @@ button:hover {
   background: white;
   border: 3px solid #184046;
   padding: 10px;
-  text-align: left;
+  text-align: center;
   margin-top: 10px;
-  width: 90%;
+  width: 60%;
   font-family: Candara;
   font-size: 16px;
 }
@@ -184,5 +184,5 @@ button:hover {
   border-radius: 5px;
   padding: 6px 10px;
   cursor: pointer;
-  font-weight: bold;
+  font-family: Candara;
 }
