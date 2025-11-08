@@ -1,27 +1,22 @@
-/* ===== General Layout ===== */
 body {
   font-family: Candara, sans-serif;
   background: #f0f8fc;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  /* Reduced top padding to shift content up */
-  padding: 20px 40px 40px 40px;
+  padding: 20px 40px;
   margin: 0;
   color: #333;
 }
 
-/* Header and Info Styling */
 .header-with-info {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  position: relative;
 }
 
-/* Container for H1 and Subtitle */
-.title-block { 
+.title-block {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,84 +29,29 @@ h1 {
   margin: 0;
 }
 
-/* Style for the italic subtitle */
-.subtitle { 
+.subtitle {
   font-style: italic;
   font-size: 14px;
-  color: #666; 
-  margin-top: -5px; 
-  margin-bottom: 5px;
+  color: #666;
+  margin-top: -5px;
 }
 
-.info-container {
-  position: relative;
-  display: inline-block;
-  margin-left: 8px;
-  cursor: pointer;
-}
-
-.info-icon {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background-color: #6db5c0;
-  color: white;
-  text-align: center;
-  line-height: 18px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.info-hover {
-  visibility: hidden;
-  width: 300px;
-  background-color: #333;
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  padding: 10px;
-  position: absolute;
-  z-index: 100;
-  /* Fix: Uses 'top' to appear below the icon */
-  top: 115%; 
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  white-space: normal;
-  font-family: sans-serif;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.info-container:hover .info-hover {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* ===== Container ===== */
 .container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  /* Increased gap to accommodate the larger chart area */
   gap: 30px;
   max-width: 1200px;
   width: 100%;
 }
 
-/* ===== Left Side ===== */
 .left {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
   min-width: 300px;
-  flex: 1 1 350px;
 }
 
 .upload-img {
@@ -127,19 +67,34 @@ h1 {
   background-color: white;
   color: black;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 8px 12px;
   width: clamp(180px, 25vw, 250px);
-  text-align: left;
-  line-height: 1.5;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-box label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.info-box input {
+  width: 100px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 3px;
+  font-family: Candara;
 }
 
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 10px;
-  width: 100%;
   align-items: center;
 }
 
@@ -185,20 +140,18 @@ button:hover {
   color: white;
 }
 
-/* ===== Chart Area ===== */
 .chart-area {
   position: relative;
-  /* Increased max size from 450px to 500px to fix the "Speed" label cutoff issue */
-  width: clamp(300px, 40vw, 500px); 
+  width: clamp(300px, 40vw, 500px);
   height: clamp(300px, 40vw, 500px);
-  background: none;
 }
 
-/* ===== Overlay ===== */
 .overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
@@ -206,11 +159,12 @@ button:hover {
   z-index: 10;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
 .character-box {
   background: #fff;
-  /* Updated to be 20% smaller */
   width: 52vw;
   height: 64vh;
   border-radius: 15px;
@@ -222,7 +176,6 @@ button:hover {
   gap: 40px;
   overflow: hidden;
   padding: 20px;
-  border: none;
 }
 
 .close-btn {
@@ -236,11 +189,10 @@ button:hover {
 }
 
 .image-section {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 3; 
+  position: relative;
 }
 
 .overlay-img {
@@ -260,36 +212,16 @@ button:hover {
   padding: 10px;
   font-family: Candara;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  /* Removed border-radius for sharper corners */
 }
 
-/* ===== Overlay Chart (Container size determined by script.js) ===== */
 .overlay-chart {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Starting size; overridden by script.js */
-  width: clamp(280px, 40vw, 450px); 
+  width: clamp(280px, 40vw, 450px);
   height: clamp(280px, 40vw, 450px);
-  position: relative;
-  z-index: 2; 
 }
 
-/* NEW Subtle Signature Styling */
-.subtle-signature {
-  position: absolute;
-  bottom: 5px; /* Near the bottom */
-  left: 20px; /* Near the left edge */
-  font-size: 8px; /* Very small */
-  font-family: sans-serif; /* Not the main Candara font, simpler */
-  color: rgba(0, 0, 0, 0.1); /* 10% black opacity - VERY subtle */
-  z-index: 5;
-  user-select: none; /* Make it unselectable */
-  pointer-events: none; /* Ensure it doesn't block clicks */
-}
-
-/* ===== Download Button ===== */
 #downloadBtn {
   position: absolute;
   bottom: 10px;
