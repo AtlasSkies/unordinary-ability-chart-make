@@ -21,9 +21,9 @@ const outlinedLabelsPlugin = {
       const cx = r.xCenter;
       const cy = r.yCenter;
       
-      // Get the current stat values for Chart 1
       const isMainChart = chart.canvas.id === 'radarChart1';
-      const statValues = isMainChart ? getStatValues() : [];
+      // Fetch values for the main chart, ensuring numbers are capped at 10 for display consistency, 
+      const statValues = isMainChart ? getStatValues().map(val => Math.min(val, 10)) : [];
 
       const baseRadius = r.drawingArea * 1.1 + 10;
       const base = -Math.PI / 2;
@@ -49,11 +49,11 @@ const outlinedLabelsPlugin = {
         const x = cx + baseRadius * Math.cos(angle);
         const y = cy + baseRadius * Math.sin(angle);
         
-        // FIX: Append stat value for the main chart
+        // Append stat value for the main chart
         let displayLabel = label;
         if (isMainChart) {
              const stat = statValues[i];
-             displayLabel += ` (${stat})`;
+             displayLabel += ` (${stat.toFixed(1)})`; // Display with one decimal place for consistency
         }
 
         ctx.strokeText(displayLabel, x, y);
@@ -147,6 +147,9 @@ Chart.register(radarBackgroundPlugin, outlinedLabelsPlugin);
 
 function makeRadar(ctx, isOverlayChart = false) {
   const currentColor = document.getElementById('colorPicker').value || '#92dfec';
+  
+  // Set point radius based on whether it's the overlay chart (0) or the main chart (4)
+  const pointR = isOverlayChart ? 0 : 4; 
 
   return new Chart(ctx, {
     type: 'radar',
@@ -157,7 +160,7 @@ function makeRadar(ctx, isOverlayChart = false) {
         backgroundColor: hexToRGBA(currentColor, 0.75),
         borderColor: currentColor,
         borderWidth: 2,
-        pointRadius: 4,
+        pointRadius: pointR, // FIX: Use calculated point radius
         pointBackgroundColor: '#fff',
         pointBorderColor: currentColor
       }]
@@ -182,7 +185,24 @@ function makeRadar(ctx, isOverlayChart = false) {
       },
       plugins: {
         legend: { display: false },
-        customBackground: { enabled: isOverlayChart }
+        customBackground: { enabled: isOverlayChart },
+        // FIX: Enable tooltips only for the overlay chart (where the main chart custom labels aren't shown)
+        tooltip: {
+            enabled: isOverlayChart, 
+            callbacks: {
+                // Ensure the tooltip label shows the category name and the score
+                label: function(context) {
+                    let label = context.dataset.label || '';
+                    if (label) {
+                        label += ': ';
+                    }
+                    if (context.parsed.r !== null) {
+                        label += context.label + ': ' + context.parsed.r.toFixed(1);
+                    }
+                    return label;
+                }
+            }
+        }
       }
     },
     plugins: []
@@ -212,14 +232,19 @@ function updateCharts() {
   const vals = getStatValues();
   chartColor = colorPicker.value;
   const fill = hexToRGBA(chartColor, 0.75);
+  
+  // Create a version of the stats capped at 10 for the overlay chart
+  const overlayVals = vals.map(val => Math.min(val, 10));
 
-  radar1.data.datasets[0].data = vals;
+  // Update Chart 1 (Main page chart)
+  radar1.data.datasets[0].data = vals; 
   radar1.data.datasets[0].backgroundColor = fill;
   radar1.data.datasets[0].borderColor = chartColor;
   radar1.update();
 
+  // Update Chart 2 (Overlay chart - data itself is capped at 10)
   if (radar2) {
-    radar2.data.datasets[0].data = vals;
+    radar2.data.datasets[0].data = overlayVals;
     radar2.data.datasets[0].backgroundColor = fill;
     radar2.data.datasets[0].borderColor = chartColor;
     radar2.update();
