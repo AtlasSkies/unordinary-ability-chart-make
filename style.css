@@ -277,12 +277,12 @@ button:hover {
   border-radius: 6px;
 }
 
-/* ✅ Watermark (AS) overlayed at 5% opacity */
+/* ✅ Watermark (AS) now 1/4 size (12px) */
 .img-watermark {
   position: absolute;
   bottom: 10px;
   left: 12px;
-  font-size: 48px;
+  font-size: 12px;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.05);
   user-select: none;
